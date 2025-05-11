@@ -2,11 +2,8 @@ import { useState } from "react"
 import TagGroup from "./TagGroup"
 import TagPicker from "./TagPicker"
 
-const TagSection = () => {
+const TagSection = ({ wantTags, setWantTags, avoidTags, setAvoidTags }) => {
   const [activePicker, setActivePicker] = useState(null) // 'want' | 'avoid' | null
-
-  const [wantTags, setWantTags] = useState([])
-  const [avoidTags, setAvoidTags] = useState([])
 
   const togglePicker = (type) => {
     setActivePicker(activePicker === type ? null : type)

@@ -2,13 +2,28 @@ import {useState} from 'react'
 import foodList from "../data/foodList"
 
 
-const SuggestionBox = () => {
+const SuggestionBox = ({wantTags, avoidTags}) => {
   const [suggestion, setSuggestion] = useState(foodList[Math.floor(Math.random() * foodList.length)].name)
 
   const handleNext = () => {
-    const randomItem = foodList[Math.floor(Math.random() * foodList.length)].name
-    setSuggestion(randomItem)
+    const filteredList = foodList.filter(item => {
+      const allTags = Object.values(item).flat()
+  
+      const matchesWant = wantTags.length === 0 || wantTags.some(tag => allTags.includes(tag))
+      const matchesAvoid = avoidTags.some(tag => allTags.includes(tag))
+  
+      return matchesWant && !matchesAvoid
+    })
+  
+    if (filteredList.length === 0) {
+      setSuggestion("（沒有符合條件的選項）")
+      return
+    }
+  
+    const randomItem = filteredList[Math.floor(Math.random() * filteredList.length)]
+    setSuggestion(randomItem.name)
   }
+  
 
 
   return (
